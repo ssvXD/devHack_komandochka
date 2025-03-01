@@ -68,8 +68,7 @@ def register(ID=0):
             'name': name,
             'password': password
         })
-        data_base.insert(ID, name, direction, subject, age, experience, work_place, education, description)
-        ID+=1
+
         # Добавляем анкету в список profiles
         profiles.append({
             'name': name,
@@ -82,7 +81,8 @@ def register(ID=0):
             'description': description,
             'photo': photo_path  # Сохраняем путь к изображению
         })
-    
+        #data_base.insert(ID, name, direction, subject, age, experience, work_place, education, description)
+        #ID+=1
         # Автоматически входим после регистрации
         session['name'] = name
         return redirect(url_for('index'))  # Перенаправляем на главную страницу
