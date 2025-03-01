@@ -81,8 +81,8 @@ def register(ID=0):
             'description': description,
             'photo': photo_path  # Сохраняем путь к изображению
         })
-        #data_base.insert(ID, name, direction, subject, age, experience, work_place, education, description)
-        #ID+=1
+        #data_base.insert(1, name, direction, subject, age, experience, work_place, education, description)
+
         # Автоматически входим после регистрации
         session['name'] = name
         return redirect(url_for('index'))  # Перенаправляем на главную страницу
