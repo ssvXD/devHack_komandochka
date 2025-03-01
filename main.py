@@ -21,6 +21,10 @@ profiles = data_base.get() # Список анкет преподавателе�
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def photo_av(dic):
+    dic["photo"] = os.path.join(app.config['UPLOAD_FOLDER'], "img.png")
+
+
 @app.route('/')
 def index():
     return render_template('index.html', profiles=profiles)
@@ -48,6 +52,9 @@ def register(ID=0):
             return "Фотография не загружена!"
         photo = request.files['photo']
         if photo.filename == '':
+            filename = secure_filename("img.png")  # Безопасное имя файла
+            photo_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            photo.save(photo_path)
             return "Файл не выбран!"
         if photo and allowed_file(photo.filename):
             filename = secure_filename(photo.filename)  # Безопасное имя файла
@@ -61,7 +68,7 @@ def register(ID=0):
             'name': name,
             'password': password
         })
-        data_base.insert(ID, name, direction, subject, age, experience, work_place, education, description, password)
+        data_base.insert(ID, name, direction, subject, age, experience, work_place, education, description)
         ID+=1
         # Добавляем анкету в список profiles
         profiles.append({
