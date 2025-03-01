@@ -59,8 +59,6 @@ class Account:
         self.login = login
         self.password = password
         self.cursor.execute(f"INSERT INTO ids(login, password) VALUES({''.join(['"', self.login, '"'])}, {''.join(['"', self.password, '"'])})")
-        self.cursor.close()
-        coni.close()
 
 
     def log_in(self):
