@@ -1,13 +1,13 @@
 import sqlite3
 
 class BD:
-    def __init__(self):
+    def __init__(self):            #просто инит
         con = sqlite3.connect("teachers.sqlite")
         self.cursor = con.cursor()
 
 
-    def insert(self, i, n, c, s, e, desc):  #функция, вносящая нового учителя в БД (иднекс, имя, направление, предмет, опыт работы, описание)
-        self.cursor.execute(f"INSERT INTO teachers(ind,name,category,subject,experience,description) VALUES({i}, {''.join(['"', n, '"'])}, {''.join(['"', c, '"'])}, {''.join(['"', s, '"'])}, {e}, {''.join(['"', desc, '"'])})")
+    def insert(self, i, n, c, s, a, desc, w, e, p):  #функция, вносящая нового учителя в БД (иднекс, имя, направление, предмет, опыт работы, описание)
+        self.cursor.execute(f"INSERT INTO teachers(ind,name,category,subject,age,description,workplace,education,password) VALUES({i}, {''.join(['"', n, '"'])}, {''.join(['"', c, '"'])}, {''.join(['"', s, '"'])}, {a}, {''.join(['"', desc, '"'])}, {''.join(['"', w, '"'])}, {''.join(['"', e, '"'])}, {''.join(['"', p, '"'])})")
 
 
     def fetchbyindex(self, i):       #находит препода по индексу (они по порядку будут)
@@ -20,13 +20,23 @@ class BD:
         return list(res)
 
 
+    def fetchbyworkplace(self, w):         #находит нужных учителей по месту работы
+        res = self.cursor.execute("SELECT * FROM teachers WHERE name like ? ", ('%' + w + '%',))
+        return list(res)
+
+
+    def fetchbyeducation(self, e):         #находит нужных учителей по его образованию
+        res = self.cursor.execute("SELECT * FROM teachers WHERE name like ? ", ('%' + e + '%',))
+        return list(res)
+
+
     def fetchbysubject(self, s):       #находит нужных учителей по любой части названия предмета
         res = self.cursor.execute("SELECT * FROM teachers WHERE subject like ?", ('%' + s + '%',))
         return list(res)
 
 
-    def fetchbyexperience(self, e):    #находит нужных учителей по опыту работы (если опыт больше или равен нужному, выводит страничку препода)
-        res = self.cursor.execute(f"SELECT * FROM teachers WHERE experience >= {e}")
+    def fetchbyage(self, a):    #находит нужных учителей по опыту работы (если опыт больше или равен нужному, выводит страничку препода)
+        res = self.cursor.execute(f"SELECT * FROM teachers WHERE experience >= {a}")
         return list(res)
 
 
@@ -40,13 +50,28 @@ class BD:
         return list(res)
 
 
+class Account:
+    def __init__(self, login, password):
+        coni = sqlite3.connect("ids.sqlite")
+        cont = sqlite3.connect("teachers.sqlite")
+        self.cursor = coni.cursor()
+        self.cursor1 = cont.cursor()
+        self.login = login
+        self.password = password
+        self.cursor.execute("INSERT INTO ids(login, password) VALUES(?, ?)", (self.login, self.password))
+
+
+    def login(self):
+        res = self.cursor1.execute("""SELECT * FROM teachers WHERE name = ? AND password = ? """, (self.login, self.password))
+        return list(res)
 
 
 
-
-base = BD()  #класс базы данных, ему можно дать любое имя, я выбрал base
-base.insert(1, "Anya", "physics and mathematics", "maths", 23, "hello, my friends!")
-base.insert(2, "Tobey", "Internet Technology", "maths", 12, "yo bozo")
+base = BD() #класс базы данных, ему можно дать любое имя, я выбрал base
+base.insert(1, "Anya", "physics and mathematics", "maths", 23, "hello, my friends!", "", "", "b")
+Anya = Account("Anya", "b")
+Anya.login()
+#base.insert(2, "Tobey", "Internet Technology", "maths", 12, "yo bozo")
 #print(base.fetchbycategory("in"))
 #print(base.fetchbyindex(1))
 #print(base.fetchbydescription(""))
