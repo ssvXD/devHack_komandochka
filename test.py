@@ -10,9 +10,9 @@ def fetchbyindex(i):       #находит препода по индексу (�
     res = cursor.execute(f"SELECT * FROM teachers WHERE ind = {i}")
     return list(res)
 
-def fetchbyname(n):         #находит нужных учителей по имени (если имя совпадает)
+def fetchbyname(n):         #находит нужных учителей по любому отрывку имени
     global cursor
-    res = cursor.execute(f"SELECT * FROM teachers WHERE name = {''.join(['"',n, '"' ])}")
+    res = cursor.execute("SELECT * FROM teachers WHERE name like ? ", ('%' + n + '%',))
     return list(res)
 
 def fetchbysubject(s):       #находит нужных учителей по любой части названия предмета
@@ -41,7 +41,7 @@ insert(1, "Anya", "maths", 23, "hello, my friends!")
 insert(2, "Tobey", "maths", 12, "yo bozo")
 #print(fetchbyindex(1))
 #print(fetchbydescription(""))
-#print(fetchbyname("Anya"))
+#print(fetchbyname("y"))
 #print(fetchbyexperience("22"))
 #print(fetchbyexperience("23"))
 #print(fetchbysubject("mat"))       # примеры для проверки работы кода (убери комменты и проверяй)
