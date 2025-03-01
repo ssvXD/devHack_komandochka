@@ -18,23 +18,25 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Имя пользователя</th>
                     <th>Имя</th>
                     <th>Направление</th>
                     <th>Предмет</th>
-                    <th>Опыт работы (лет)</th>
+                    <th>Возраст</th>
                     <th>Описание</th>
+                    <th>Место работы</th>
+                    <th>Образование</th>
                 </tr>
             </thead>
             <tbody>
                 {% for profile in profiles %}
                 <tr>
-                    <td>{{ profile.username }}</td>
                     <td>{{ profile.name }}</td>
                     <td>{{ profile.direction }}</td>
                     <td>{{ profile.subject }}</td>
-                    <td>{{ profile.experience }}</td>
+                    <td>{{ profile.age }}</td>
                     <td>{{ profile.description }}</td>
+                    <td>{{ profile.work_place }}</td>
+                    <td>{{ profile.education }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
