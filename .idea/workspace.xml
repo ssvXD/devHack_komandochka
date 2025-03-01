@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6f8ddde-7517-46a1-9ec9-af61827bfaa7" name="Changes" comment="some adds">
-      <change afterPath="$PROJECT_DIR$/ids.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pic1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/pic1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/profiles.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/profiles.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teachers.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/teachers.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

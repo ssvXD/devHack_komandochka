@@ -61,16 +61,16 @@ class Account:
         self.cursor.execute("INSERT INTO ids(login, password) VALUES(?, ?)", (self.login, self.password))
 
 
-    def login(self):
-        res = self.cursor1.execute("""SELECT * FROM teachers WHERE name = ? AND password = ? """, (self.login, self.password))
-        return list(res)
+    def log_in(self):
+        res = self.cursor1.execute("""SELECT * FROM teachers WHERE name = ? AND password = ? """, (self.login, self.password)).fetchall()
+        return res
 
 
 
 base = BD() #класс базы данных, ему можно дать любое имя, я выбрал base
 base.insert(1, "Anya", "physics and mathematics", "maths", 23, "hello, my friends!", "", "", "b")
-Anya = Account("Anya", "b")
-Anya.login()
+nya = Account("Anya", "b")
+print(nya.log_in())
 #base.insert(2, "Tobey", "Internet Technology", "maths", 12, "yo bozo")
 #print(base.fetchbycategory("in"))
 #print(base.fetchbyindex(1))
