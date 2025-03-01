@@ -55,14 +55,16 @@ class Account:
         coni = sqlite3.connect("ids.sqlite")
         cont = sqlite3.connect("teachers.sqlite")
         self.cursor = coni.cursor()
-        self.cursor1 = cont.cursor()
+        self.cursort = cont.cursor()
         self.login = login
         self.password = password
         self.cursor.execute(f"INSERT INTO ids(login, password) VALUES({''.join(['"', self.login, '"'])}, {''.join(['"', self.password, '"'])})")
+        self.cursor.close()
+        coni.close()
 
 
     def log_in(self):
-        res = self.cursor1.execute(f"""SELECT * FROM teachers WHERE name = {''.join(['"', self.login, '"'])} and password = {''.join(['"', self.password, '"'])} """).fetchall()
+        res = self.cursort.execute(f"""SELECT * FROM teachers WHERE name = {''.join(['"', self.login, '"'])} and password = {''.join(['"', self.password, '"'])} """).fetchall()
         return res
 
 
