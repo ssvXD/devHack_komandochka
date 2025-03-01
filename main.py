@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import os
 from werkzeug.utils import secure_filename
 
+from test import BD
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Секретный ключ для работы с сессиями
 
@@ -10,9 +12,10 @@ UPLOAD_FOLDER = 'static/uploads'  # Папка для сохранения из�
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}  # Разрешенные расширения файлов
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Списки для хранения данных
+# Списки для хранения данных + база данных
 users = []  # Список зарегистрированных пользователей
-profiles = []  # Список анкет преподавателей
+data_base = BD()
+profiles = data_base.get() # Список анкет преподавателей
 
 # Функция для проверки расширения файла
 def allowed_file(filename):
@@ -23,7 +26,7 @@ def index():
     return render_template('index.html', profiles=profiles)
 
 @app.route('/register', methods=['GET', 'POST'])
-def register():
+def register(ID=0):
     if request.method == 'POST':
         # Получаем данные из формы регистрации
         name = request.form.get('name')
@@ -58,7 +61,8 @@ def register():
             'name': name,
             'password': password
         })
-
+        data_base.insert(ID, name, direction, subject, age, experience, work_place, education, description, password)
+        ID+=1
         # Добавляем анкету в список profiles
         profiles.append({
             'name': name,
@@ -71,7 +75,7 @@ def register():
             'description': description,
             'photo': photo_path  # Сохраняем путь к изображению
         })
-
+    
         # Автоматически входим после регистрации
         session['name'] = name
         return redirect(url_for('index'))  # Перенаправляем на главную страницу
