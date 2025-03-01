@@ -8,7 +8,7 @@ class BD:
         global cursori
 
 
-    def insert(self, i, n, c, s, a, desc, w, e, p):  #функция, вносящая нового учителя в БД (иднекс, имя, направление, предмет, опыт работы, описание)
+    def insert(self, i, n, c, s, a, desc, w, e, p):  #функция, вносящая нового учителя в БД (иднекс, имя, направление, предмет, возраст, описание, место работы, образование, пароль)
         cursort.execute(f"INSERT INTO teachers(ind,name,category,subject,age,description,workplace,education,password) VALUES({i}, {''.join(['"', n, '"'])}, {''.join(['"', c, '"'])}, {''.join(['"', s, '"'])}, {a}, {''.join(['"', desc, '"'])}, {''.join(['"', w, '"'])}, {''.join(['"', e, '"'])}, {''.join(['"', p, '"'])})")
 
 
@@ -51,6 +51,22 @@ class BD:
     def fetchbycategory(self, cat):    #находит учителей по любому отрывку направления
         res = cursort.execute("""SELECT * FROM teachers WHERE category like ? """, ('%' + cat + '%',))
         return list(res)
+
+    def get(self):
+        res = cursort.execute("""SELECT * FROM teachers""").fetchall()
+        result = []
+        for i in res:
+            result.append({ "name" : i[1],
+                            "category" : i[2],
+                            "subject" : i[3],
+                            "age" : i[4],
+                            "description" : i[5],
+                            "workplace" : i[6],
+                            "education" : i[7],
+                            "password" : i[8]
+                          })
+        return result
+
 
 
 class Account:
