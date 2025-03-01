@@ -15,7 +15,7 @@
 
     <div class="container mt-4">
         <h1>Регистрация</h1>
-        <form action="/register" method="POST">
+        <form action="/register" method="POST" enctype="multipart/form-data">
             <!-- Основные данные для регистрации -->
             <div class="mb-3">
                 <label for="username" class="form-label">Имя пользователя</label>
@@ -46,6 +46,12 @@
             <div class="mb-3">
                 <label for="description" class="form-label">Описание</label>
                 <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+            </div>
+
+            <!-- Поле для загрузки изображения -->
+            <div class="mb-3">
+                <label for="photo" class="form-label">Фотография</label>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required>
             </div>
 
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button>

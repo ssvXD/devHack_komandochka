@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from test import BD
 
 app = Flask(__name__, template_folder='template')
 app.secret_key = 'your_secret_key'  # Секретный ключ для работы с сессиями
@@ -6,14 +7,17 @@ app.secret_key = 'your_secret_key'  # Секретный ключ для раб�
 # Списки для хранения данных
 users = []  # Список зарегистрированных пользователей
 profiles = []  # Список анкет
+ID = 0
+data_base = BD()
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/register', methods=['GET', 'POST'])
-def register():
+def register(ID=0):
     if request.method == 'POST':
+
         # Получаем данные из формы регистрации
         username = request.form.get('username')
         password = request.form.get('password')
@@ -27,6 +31,8 @@ def register():
         if any(user['username'] == username for user in users):
             return "Пользователь с таким именем уже существует!"
 
+        data_base.insert(ID, name, direction, subject, subject, experience, description) #функция, вносящая нового учителя в БД (иднекс, имя, направление, предмет, опыт работы, описание)
+        ID += 1
         # Добавляем нового пользователя
         users.append({
             'username': username,
@@ -53,6 +59,7 @@ def register():
 def show_profiles():
     # Страница для отображения всех анкет
     return render_template('profiles.html', profiles=profiles)
+
 
 if __name__ == '__main__':
     app.run(port=8080, host='0.0.0.0')
