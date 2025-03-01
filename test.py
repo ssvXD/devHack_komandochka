@@ -6,7 +6,7 @@ class BD:
         self.cursor = con.cursor()
 
 
-    def insert(self, i, n, c, s, a, desc, w, e, p):  #функция, вносящая нового учителя в БД (иднекс, имя, направление, предмет, опыт работы, описание)
+    def insert(self, i: object, n: object, c: object, s: object, a: object, desc: object, w: object, e: object, p: object) -> object:  #функция, вносящая нового учителя в БД (иднекс, имя, направление, предмет, опыт работы, описание)
         self.cursor.execute(f"INSERT INTO teachers(ind,name,category,subject,age,description,workplace,education,password) VALUES({i}, {''.join(['"', n, '"'])}, {''.join(['"', c, '"'])}, {''.join(['"', s, '"'])}, {a}, {''.join(['"', desc, '"'])}, {''.join(['"', w, '"'])}, {''.join(['"', e, '"'])}, {''.join(['"', p, '"'])})")
 
 

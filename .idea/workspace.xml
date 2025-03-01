@@ -5,6 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6f8ddde-7517-46a1-9ec9-af61827bfaa7" name="Changes" comment="some adds">
+      <change beforePath="$PROJECT_DIR$/.idea/devHack_komandochka.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/devHack_komandochka.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/profiles.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profiles.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,6 +71,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Admin\PycharmProjects\devHack_komandochka\templates" />
       <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka\template" />
       <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka\static" />
       <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka" />
@@ -200,7 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740770562959</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="data_base to main">
+      <option name="closed" value="true" />
+      <created>1740853184057</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1740853184057</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -231,6 +247,7 @@
     <MESSAGE value="hz" />
     <MESSAGE value="no probas" />
     <MESSAGE value="some adds" />
-    <option name="LAST_COMMIT_MESSAGE" value="some adds" />
+    <MESSAGE value="data_base to main" />
+    <option name="LAST_COMMIT_MESSAGE" value="data_base to main" />
   </component>
 </project>
