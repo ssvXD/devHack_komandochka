@@ -85,7 +85,10 @@ class Account:
         return res
 
 
-#класс базы данных, ему можно дать любое имя, я выбрал base
+cont = sqlite3.connect("teachers.sqlite")
+cursort = cont.cursor()
+coni = sqlite3.connect("ids.sqlite")
+cursori = coni.cursor()#класс базы данных, ему можно дать любое имя, я выбрал base
 #print(base.fetchbycategory("in"))
 #print(base.fetchbyindex(1))
 #print(base.fetchbydescription(""))
