@@ -85,15 +85,7 @@ class Account:
         return res
 
 
-cont = sqlite3.connect("teachers.sqlite")
-cursort = cont.cursor()
-coni = sqlite3.connect("ids.sqlite")
-cursori = coni.cursor()
-base = BD() #класс базы данных, ему можно дать любое имя, я выбрал base
-base.insert(1, "Anya", "physics and mathematics", "maths", 23, "hello, my friends!", "wa", "adsa", "ble")
-base.insert(2, "Tobey", "Internet Technology", "maths", 12, "yo bozo", "", "", "aaa")
-Anya = Account("Anya", "ble")
-print(Anya.log_in())
+#класс базы данных, ему можно дать любое имя, я выбрал base
 #print(base.fetchbycategory("in"))
 #print(base.fetchbyindex(1))
 #print(base.fetchbydescription(""))
