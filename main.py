@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import os
 from werkzeug.utils import secure_filename
 
+from test import BD
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Секретный ключ для работы с сессиями
 
@@ -10,20 +12,25 @@ UPLOAD_FOLDER = 'static/uploads'  # Папка для сохранения из�
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}  # Разрешенные расширения файлов
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Списки для хранения данных
+# Списки для хранения данных + база данных
 users = []  # Список зарегистрированных пользователей
-profiles = []  # Список анкет преподавателей
+data_base = BD()
+profiles = data_base.get() # Список анкет преподавателей
 
 # Функция для проверки расширения файла
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def photo_av(dic):
+    dic["photo"] = os.path.join(app.config['UPLOAD_FOLDER'], "img.png")
+
 
 @app.route('/')
 def index():
     return render_template('index.html', profiles=profiles)
 
 @app.route('/register', methods=['GET', 'POST'])
-def register():
+def register(ID=0):
     if request.method == 'POST':
         # Получаем данные из формы регистрации
         name = request.form.get('name')
@@ -45,6 +52,9 @@ def register():
             return "Фотография не загружена!"
         photo = request.files['photo']
         if photo.filename == '':
+            filename = secure_filename("img.png")  # Безопасное имя файла
+            photo_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            photo.save(photo_path)
             return "Файл не выбран!"
         if photo and allowed_file(photo.filename):
             filename = secure_filename(photo.filename)  # Безопасное имя файла
@@ -71,6 +81,7 @@ def register():
             'description': description,
             'photo': photo_path  # Сохраняем путь к изображению
         })
+        #data_base.insert(1, name, direction, subject, age, experience, work_place, education, description)
 
         # Автоматически входим после регистрации
         session['name'] = name

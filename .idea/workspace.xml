@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6f8ddde-7517-46a1-9ec9-af61827bfaa7" name="Changes" comment="some adds">
+      <change afterPath="$PROJECT_DIR$/static/img.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ids.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/ids.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/profiles.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profiles.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teachers.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pic1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/pic1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/profiles.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profiles.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,18 +68,22 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/PycharmProjects/devHack_komandochka&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Antonb/OneDrive - Южный Федеральный Университет/devHack_komandochka&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka\static" />
+      <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka\templates" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka\static" />
       <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka" />
       <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka\templates" />
       <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka\template" />
-      <recent name="C:\Users\Antonb\OneDrive - Южный Федеральный Университет\Документы\GitHub\devHack_komandochka\static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager" selected="Python.main">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="devHack_komandochka" />
       <option name="ENV_FILES" value="" />
@@ -145,8 +152,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.app" />
       </list>
     </recent_temporary>
