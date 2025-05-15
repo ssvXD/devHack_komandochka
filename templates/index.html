@@ -7,35 +7,46 @@
     <!-- Подключаем Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Дополнительные стили для заголовка */
         .navbar-brand {
             font-size: 1.5rem;
             font-weight: bold;
         }
         .carousel-item {
             height: 400px;
-            background-size: cover;
-            background-position: center;
         }
         .carousel-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        /* Пользовательский цвет для шапки */
         .custom-navbar {
-            background-color: #32127A; /* HEX: #32127A */
+            background-color: #32127A;
         }
-
-        /* Стили для карточек */
         .card {
             margin-bottom: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
         }
         .card-img-top {
             height: 200px;
             object-fit: cover;
+        }
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .filter-title {
+            margin-bottom: 20px;
+            color: #32127A;
+        }
+        .subject-badge {
+            margin-right: 5px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -51,7 +62,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Главная</a>
+                        <a class="nav-link active" href="/">Главная</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/profiles">Анкеты</a>
@@ -68,7 +79,6 @@
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <!-- Изображение pic1.jpg -->
                 <img src="{{ url_for('static', filename='pic1.jpg') }}" class="d-block w-100" alt="Slide 1">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Анкеты для РИНХ</h5>
@@ -81,17 +91,43 @@
     <!-- Основной контент -->
     <div class="container mt-4">
         <h1>Зарегистрированные преподаватели</h1>
-        <div class="row">
+
+        <!-- Секция фильтрации по предметам -->
+        <div class="filter-section">
+            <h3 class="filter-title">Поиск преподавателей по предметам</h3>
+            <div class="mb-3">
+                <div id="subjectFilters" class="d-flex flex-wrap">
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Все предметы">Все предметы</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Русский язык">Русский язык</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Математика">Математика</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Физика">Физика</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Химия">Химия</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="История">История</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Обществознание">Обществознание</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Биология">Биология</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Литература">Литература</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Информатика">Информатика</button>
+                    <button type="button" class="btn btn-outline-primary subject-badge" data-subject="Английский язык">Английский язык</button>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" id="searchInput" class="form-control" placeholder="Поиск по имени или предмету...">
+                <button class="btn btn-primary" id="searchButton">Поиск</button>
+            </div>
+        </div>
+
+        <div class="row" id="profilesContainer">
             {% for profile in profiles %}
-            <div class="col-md-4">
+            <div class="col-md-4 profile-card"
+                 data-subject="{{ profile.subject }}"
+                 data-name="{{ profile.name }}">
                 <div class="card">
                     <img src="{{ profile.photo }}" class="card-img-top" alt="Фотография {{ profile.name }}">
                     <div class="card-body">
                         <h5 class="card-title">{{ profile.name }}</h5>
                         <p class="card-text">
-                            <strong>Направление:</strong> {{ profile.direction }}<br>
                             <strong>Предмет:</strong> {{ profile.subject }}<br>
-                            <strong>Возраст:</strong> {{ profile.age }}<br>
+                            <strong>Направление:</strong> {{ profile.direction }}<br>
                             <strong>Опыт работы:</strong> {{ profile.experience }} лет<br>
                             <strong>Место работы:</strong> {{ profile.work_place }}<br>
                             <strong>Образование:</strong> {{ profile.education }}<br>
@@ -104,8 +140,68 @@
         </div>
     </div>
 
-    <!-- Подключаем Bootstrap JS и зависимости -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <!-- Подключаем Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Скрипт для фильтрации -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработчики для кнопок предметов
+            document.querySelectorAll('#subjectFilters button').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Удаляем активный класс у всех кнопок
+                    document.querySelectorAll('#subjectFilters button').forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.classList.add('btn-outline-primary');
+                    });
+
+                    // Добавляем активный класс к текущей кнопке
+                    this.classList.add('active');
+                    this.classList.remove('btn-outline-primary');
+
+                    const subject = this.getAttribute('data-subject');
+                    filterProfilesBySubject(subject);
+                });
+            });
+
+            // Обработчик для поиска
+            document.getElementById('searchButton').addEventListener('click', function() {
+                const searchText = document.getElementById('searchInput').value.toLowerCase();
+                filterProfilesBySearch(searchText);
+            });
+
+            // По умолчанию показываем все предметы
+            document.querySelector('[data-subject="Все предметы"]').click();
+        });
+
+        function filterProfilesBySubject(subject) {
+            const profileCards = document.querySelectorAll('.profile-card');
+
+            profileCards.forEach(card => {
+                const cardSubject = card.getAttribute('data-subject');
+
+                if (subject === 'Все предметы' || cardSubject === subject) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function filterProfilesBySearch(searchText) {
+            const profileCards = document.querySelectorAll('.profile-card');
+
+            profileCards.forEach(card => {
+                const cardSubject = card.getAttribute('data-subject').toLowerCase();
+                const cardName = card.getAttribute('data-name').toLowerCase();
+
+                if (cardSubject.includes(searchText) || cardName.includes(searchText)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
