@@ -39,6 +39,7 @@ def register(ID=0):
         age = request.form.get('age')
         experience = request.form.get('experience')
         work_place = request.form.get('work_place')
+        phone = request.form.get('phone')
         education = request.form.get('education')
         description = request.form.get('description')
         password = request.form.get('password')
@@ -77,6 +78,7 @@ def register(ID=0):
             'age': age,
             'experience': experience,
             'work_place': work_place,
+            'phone': phone,
             'education': education,
             'description': description,
             'photo': photo_path  # Сохраняем путь к изображению
