@@ -1,101 +1,233 @@
 import sqlite3
 
 class BD:
-    def __init__(self):            #просто инит
-        global coni
-        global cont
-        global cursort
-        global cursori
+    def __init__(self):
+        self.db_teachers = "teachers.sqlite"
+        self.db_ids = "ids.sqlite"
+        self._init_tables()
 
+    def _init_tables(self):
+        """Создаёт таблицы и добавляет недостающие колонки."""
+        # Таблица teachers
+        conn = self._get_teachers_conn()
+        try:
+            # Создаём таблицу, если её нет
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS teachers (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT,
+                    category TEXT,
+                    subject TEXT,
+                    age INTEGER,
+                    experience INTEGER,
+                    description TEXT,
+                    workplace TEXT,
+                    education TEXT,
+                    password TEXT,
+                    phone TEXT,
+                    photo_path TEXT
+                )
+            ''')
+            # Проверяем наличие всех колонок
+            cursor = conn.execute("PRAGMA table_info(teachers)")
+            existing_columns = [col[1] for col in cursor.fetchall()]
+            
+            # Список всех нужных колонок
+            required_columns = [
+                ('experience', 'INTEGER'),
+                ('phone', 'TEXT'),
+                ('photo_path', 'TEXT'),
+                ('description', 'TEXT'),
+                ('workplace', 'TEXT'),
+                ('education', 'TEXT'),
+                ('password', 'TEXT')
+            ]
+            
+            for col_name, col_type in required_columns:
+                if col_name not in existing_columns:
+                    try:
+                        conn.execute(f"ALTER TABLE teachers ADD COLUMN {col_name} {col_type}")
+                        print(f"Добавлена колонка {col_name}")
+                    except Exception as e:
+                        print(f"Не удалось добавить {col_name}: {e}")
+            conn.commit()
+        finally:
+            conn.close()
 
-    def insert(self, i, n, c, s, a, desc, w, e, p):  #функция, вносящая нового учителя в БД (иднекс, имя, направление, предмет, возраст, описание, место работы, образование, пароль)
-        cursort.execute(f"INSERT INTO teachers(ind,name,category,subject,age,description,workplace,education,password) VALUES({i}, {''.join(['"', n, '"'])}, {''.join(['"', c, '"'])}, {''.join(['"', s, '"'])}, {a}, {''.join(['"', desc, '"'])}, {''.join(['"', w, '"'])}, {''.join(['"', e, '"'])}, {''.join(['"', p, '"'])})")
+        # Таблица ids
+        conn = self._get_ids_conn()
+        try:
+            conn.execute('''
+                CREATE TABLE IF NOT EXISTS ids (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    login TEXT,
+                    password TEXT
+                )
+            ''')
+            conn.commit()
+        finally:
+            conn.close()
 
+    def _get_teachers_conn(self):
+        conn = sqlite3.connect(self.db_teachers, check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        return conn
 
+    def _get_ids_conn(self):
+        conn = sqlite3.connect(self.db_ids, check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        return conn
 
-    def fetchbyindex(self, i):       #находит препода по индексу (они по порядку будут)
-        res = cursort.execute(f"SELECT * FROM teachers WHERE ind = {i}")
-        return list(res)
+    def insert(self, name, category, subject, age, experience, description, workplace, education, password, phone, photo_path):
+        conn = self._get_teachers_conn()
+        try:
+            conn.execute('''
+                INSERT INTO teachers 
+                (name, category, subject, age, experience, description, workplace, education, password, phone, photo_path) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', (name, category, subject, age, experience, description, workplace, education, password, phone, photo_path))
+            conn.commit()
+            return True
+        except Exception as e:
+            print("="*50)
+            print("INSERT ERROR:")
+            print(e)
+            print("="*50)
+            return False
+        finally:
+            conn.close()
 
+    def fetchbyindex(self, idx):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE id = ?", (idx,))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
-    def fetchbyname(self, n):         #находит нужных учителей по любому отрывку имени
-        res = cursort.execute("SELECT * FROM teachers WHERE name like ? ", ('%' + n + '%',))
-        return list(res)
+    def fetchbyname(self, name):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE name LIKE ?", ('%' + name + '%',))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
+    def fetchbyworkplace(self, workplace):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE workplace LIKE ?", ('%' + workplace + '%',))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
-    def fetchbyworkplace(self, w):         #находит нужных учителей по месту работы
-        res = cursort.execute("SELECT * FROM teachers WHERE name like ? ", ('%' + w + '%',))
-        return list(res)
+    def fetchbyeducation(self, education):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE education LIKE ?", ('%' + education + '%',))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
+    def fetchbysubject(self, subject):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE subject LIKE ?", ('%' + subject + '%',))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
-    def fetchbyeducation(self, e):         #находит нужных учителей по его образованию
-        res = cursort.execute("SELECT * FROM teachers WHERE name like ? ", ('%' + e + '%',))
-        return list(res)
+    def fetchbyage(self, age):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE age >= ?", (age,))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
+    def fetchbyexperience(self, exp):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE experience >= ?", (exp,))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
-    def fetchbysubject(self, s):       #находит нужных учителей по любой части названия предмета
-        res = cursort.execute("SELECT * FROM teachers WHERE subject like ?", ('%' + s + '%',))
-        return list(res)
+    def fetchbydescription(self, desc):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE description LIKE ?", ('%' + desc + '%',))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
-
-    def fetchbyage(self, a):    #находит нужных учителей по опыту работы (если опыт больше или равен нужному, выводит страничку препода)
-        res = cursort.execute(f"SELECT * FROM teachers WHERE experience >= {a}")
-        return list(res)
-
-
-    def fetchbydescription(self, desc):    #находит учителей по любому отрывку описания
-        res = cursort.execute("""SELECT * FROM teachers WHERE description like ? """, ('%' + desc + '%',))
-        return list(res)
-
-
-    def fetchbycategory(self, cat):    #находит учителей по любому отрывку направления
-        res = cursort.execute("""SELECT * FROM teachers WHERE category like ? """, ('%' + cat + '%',))
-        return list(res)
+    def fetchbycategory(self, cat):
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers WHERE category LIKE ?", ('%' + cat + '%',))
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
     def get(self):
-        res = cursort.execute("""SELECT * FROM teachers""").fetchall()
-        result = []
-        for i in res:
-            result.append({ "name" : i[1],
-                            "category" : i[2],
-                            "subject" : i[3],
-                            "age" : i[4],
-                            "description" : i[5],
-                            "workplace" : i[6],
-                            "education" : i[7],
-                            "password" : i[8]
-                          })
-        return result
+        """Возвращает ВСЕХ преподавателей"""
+        conn = self._get_teachers_conn()
+        try:
+            cur = conn.execute("SELECT * FROM teachers")
+            return self._format_results(cur.fetchall())
+        finally:
+            conn.close()
 
+    def _format_results(self, rows):
+        """Преобразует строки из БД в формат для шаблонов"""
+        result = []
+        for row in rows:
+            d = dict(row)
+            result.append({
+                "id": d.get("id"),
+                "name": d.get("name"),
+                "direction": d.get("category"),      # важно: в шаблоне используется direction
+                "subject": d.get("subject"),
+                "age": d.get("age"),
+                "experience": d.get("experience"),
+                "description": d.get("description"),
+                "work_place": d.get("workplace"),    # важно: в шаблоне work_place
+                "education": d.get("education"),
+                "password": d.get("password"),
+                "phone": d.get("phone"),
+                "photo": d.get("photo_path", "/static/uploads/img.png")
+            })
+        return result
 
 
 class Account:
     def __init__(self, login, password):
-        global coni
-        global cont
-        global cursort
-        global cursori
         self.login = login
         self.password = password
-        cursori.execute(f"INSERT INTO ids(login, password) VALUES({'"' + login + '"'}, {''.join(['"', password, '"'])})")
-
+        # Сохраняем учётную запись в ids.sqlite (отдельное соединение)
+        conn = sqlite3.connect("ids.sqlite", check_same_thread=False)
+        try:
+            conn.execute("INSERT INTO ids (login, password) VALUES (?, ?)", (login, password))
+            conn.commit()
+        finally:
+            conn.close()
 
     def log_in(self):
-        res = cursort.execute(f"""SELECT * FROM teachers WHERE name = {'"' + self.login + '"'} and password = {''.join(['"', self.password, '"'])} """).fetchall()
-        return res
+        # Сначала ищем среди преподавателей
+        bd = BD()
+        teachers = bd.fetchbyname(self.login)
+        for t in teachers:
+            if t["password"] == self.password:
+                return [t]
 
-
-cont = sqlite3.connect("teachers.sqlite")
-cursort = cont.cursor()
-coni = sqlite3.connect("ids.sqlite")
-cursori = coni.cursor()#класс базы данных, ему можно дать любое имя, я выбрал base
-#print(base.fetchbycategory("in"))
-#print(base.fetchbyindex(1))
-#print(base.fetchbydescription(""))
-#print(base.fetchbyname("y"))
-#print(base.fetchbyexperience("22"))
-#print(base.fetchbyexperience("23"))
-#print(base.fetchbysubject("mat"))       # примеры для проверки работы кода (убери комменты и проверяй)
-
-
-#есть вопросы - пишите в телегу
+        # Если не нашли, ищем в таблице ids
+        conn = sqlite3.connect("ids.sqlite", check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        try:
+            cur = conn.execute("SELECT * FROM ids WHERE login = ? AND password = ?", (self.login, self.password))
+            rows = cur.fetchall()
+            if rows:
+                return [{"name": row["login"]} for row in rows]
+            return []
+        finally:
+            conn.close()
