@@ -15,53 +15,82 @@
 
     <div class="container mt-4">
         <h1>Регистрация</h1>
+
+        {# Вывод flash-сообщений #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ 'success' if category=='success' else 'danger' }}" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
         <form action="/register" method="POST" enctype="multipart/form-data">
-            <!-- Основные данные для регистрации -->
+            <!-- Имя -->
             <div class="mb-3">
-                <label for="name" class="form-label">Имя</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <label for="name" class="form-label">Имя *</label>
+                <input type="text" class="form-control" id="name" name="name" 
+                       value="{{ form_data.name if form_data else '' }}" required>
             </div>
+            <!-- Направление -->
             <div class="mb-3">
-                <label for="direction" class="form-label">Направление</label>
-                <input type="text" class="form-control" id="direction" name="direction" required>
+                <label for="direction" class="form-label">Направление *</label>
+                <input type="text" class="form-control" id="direction" name="direction" 
+                       value="{{ form_data.direction if form_data else '' }}" required>
             </div>
+            <!-- Предмет -->
             <div class="mb-3">
-                <label for="subject" class="form-label">Предмет</label>
-                <input type="text" class="form-control" id="subject" name="subject" required>
+                <label for="subject" class="form-label">Предмет *</label>
+                <input type="text" class="form-control" id="subject" name="subject" 
+                       value="{{ form_data.subject if form_data else '' }}" required>
             </div>
+            <!-- Возраст -->
             <div class="mb-3">
-                <label for="age" class="form-label">Возраст</label>
-                <input type="number" class="form-control" id="age" name="age" required>
+                <label for="age" class="form-label">Возраст *</label>
+                <input type="number" class="form-control" id="age" name="age" min="0"
+                       value="{{ form_data.age if form_data else '' }}" required>
             </div>
+            <!-- Опыт работы -->
             <div class="mb-3">
-                <label for="experience" class="form-label">Опыт работы (лет)</label>
-                <input type="number" class="form-control" id="experience" name="experience" required>
+                <label for="experience" class="form-label">Опыт работы (лет) *</label>
+                <input type="number" class="form-control" id="experience" name="experience" min="0"
+                       value="{{ form_data.experience if form_data else '' }}" required>
             </div>
+            <!-- Место работы -->
             <div class="mb-3">
-                <label for="work_place" class="form-label">Место работы</label>
-                <input type="text" class="form-control" id="work_place" name="work_place" required>
+                <label for="work_place" class="form-label">Место работы *</label>
+                <input type="text" class="form-control" id="work_place" name="work_place" 
+                       value="{{ form_data.work_place if form_data else '' }}" required>
             </div>
+            <!-- Телефон -->
             <div class="mb-3">
-                <label for="phone" class="form-label">Телефон</label>
-                <input type="text" class="form-control" id="phone" name="phone" required>
+                <label for="phone" class="form-label">Телефон *</label>
+                <input type="text" class="form-control" id="phone" name="phone" 
+                       value="{{ form_data.phone if form_data else '' }}" required>
             </div>
+            <!-- Образование -->
             <div class="mb-3">
-                <label for="education" class="form-label">Образование</label>
-                <input type="text" class="form-control" id="education" name="education" required>
+                <label for="education" class="form-label">Образование *</label>
+                <input type="text" class="form-control" id="education" name="education" 
+                       value="{{ form_data.education if form_data else '' }}" required>
             </div>
+            <!-- Описание (необязательно) -->
             <div class="mb-3">
                 <label for="description" class="form-label">Описание</label>
-                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                <textarea class="form-control" id="description" name="description" rows="3">{{ form_data.description if form_data else '' }}</textarea>
             </div>
+            <!-- Пароль -->
             <div class="mb-3">
-                <label for="password" class="form-label">Пароль</label>
+                <label for="password" class="form-label">Пароль *</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
-
-            <!-- Поле для загрузки фотографии -->
+            <!-- Фото (необязательно) -->
             <div class="mb-3">
                 <label for="photo" class="form-label">Фотография</label>
-                <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                <div class="form-text">Если не выбрано, будет установлено изображение по умолчанию.</div>
             </div>
 
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
